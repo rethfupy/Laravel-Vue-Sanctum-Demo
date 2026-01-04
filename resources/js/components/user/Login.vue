@@ -2,21 +2,9 @@
     <div>
         <h1>Login</h1>
         <div class="d-flex flex-column gap-2 mt-2 w-25">
-            <input
-                v-model="email"
-                type="email"
-                class="form-control"
-                placeholder="Enter email"
-            />
-            <input
-                v-model="password"
-                type="password"
-                class="form-control"
-                placeholder="Enter password"
-            />
-            <button @click.prevent="login" class="btn btn-primary">
-                Sign in
-            </button>
+            <input v-model="email" type="email" class="form-control" placeholder="Enter email" />
+            <input v-model="password" type="password" class="form-control" placeholder="Enter password" />
+            <button @click.prevent="login" class="btn btn-primary">Sign in</button>
         </div>
     </div>
 </template>

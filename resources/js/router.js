@@ -1,3 +1,5 @@
+import axios from "axios";
+import useAuthStore from "@/stores/auth";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -36,20 +38,24 @@ const router = createRouter({
     routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//     const token = localStorage.getItem("access_token");
+router.beforeEach(async (to, from, next) => {
+    const auth = useAuthStore();
+    const requiresAuth = to.meta.requiresAuth;
+    const guestOnly = to.meta.guestOnly;
 
-//     if (to.meta.requiresAuth && !token) {
-//         next({ name: "user.login" });
-//         return;
-//     }
+    if (!requiresAuth && !guestOnly) {
+        return next();
+    }
 
-//     if (to.meta.guestOnly && token) {
-//         next({ name: "main.index" });
-//         return;
-//     }
+    if (auth.isGuest && requiresAuth) {
+        return next("/login");
+    }
 
-//     next();
-// });
+    if (auth.isAuthenticated && guestOnly) {
+        return next("/");
+    }
+
+    return next();
+});
 
 export default router;

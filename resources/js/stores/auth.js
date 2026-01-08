@@ -29,6 +29,16 @@ export default defineStore("auth", {
 
             return this.userLoggedIn;
         },
+        async register(payload) {
+            await axios.get("/sanctum/csrf-cookie");
+            await axios.post("/register", payload);
+            await this.fetchUser(true);
+        },
+        async authorize(payload) {
+            await axios.get("/sanctum/csrf-cookie");
+            await axios.post("/login", payload);
+            await this.fetchUser(true);
+        },
         async logout() {
             await axios.post("/logout").then((res) => {
                 this.checked = false;

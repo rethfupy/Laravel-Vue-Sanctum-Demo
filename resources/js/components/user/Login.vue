@@ -35,17 +35,13 @@ export default {
         };
     },
     methods: {
-        ...mapActions(useAuthStore, ["fetchUser"]),
+        ...mapActions(useAuthStore, ["authorize"]),
         async login() {
             try {
-                await axios.get("/sanctum/csrf-cookie");
-
-                await axios.post("/login", {
+                await this.authorize({
                     email: this.email,
                     password: this.password,
                 });
-
-                await this.fetchUser(true);
 
                 this.$router.push({ name: "main.index" });
             } catch (error) {

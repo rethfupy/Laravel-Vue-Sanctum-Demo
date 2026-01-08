@@ -46,19 +46,15 @@ export default {
         };
     },
     methods: {
-        ...mapActions(useAuthStore, ["fetchUser"]),
+        ...mapActions(useAuthStore, ["register"]),
         async store() {
             try {
-                await axios.get("/sanctum/csrf-cookie");
-
-                await axios.post("/register", {
+                await this.register({
                     name: this.name,
                     email: this.email,
                     password: this.password,
                     password_confirmation: this.password_confirmation,
                 });
-
-                await this.fetchUser(true);
 
                 this.$router.push({ name: "main.index" });
             } catch (error) {
